@@ -47,15 +47,15 @@ module.exports = appInfo => {
     // 单数据库信息配置
     client: {
       // host
-      host: 'localhost',
+      host: '8.139.253.29',
       // 端口号
       port: '3306',
       // 用户名
       user: 'root',
       // 密码
-      password: 'qiheng52825', // 初始化密码，没设置的可以不写
+      password: 'Qiheng52825.', // 初始化密码，没设置的可以不写
       // 数据库名
-      database: 'juejue-cost', // 我们新建的数据库名称
+      database: 'jue-cost', // 我们新建的数据库名称
     },
     // 是否加载到 app 上，默认开启
     app: true,
