@@ -27,7 +27,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-egg214记事本项目",
+    "start": "egg-scripts start --sticky --title=egg-server-egg214记事本项目",
     "stop": "egg-scripts stop --title=egg-server-egg214记事本项目",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
