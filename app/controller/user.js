@@ -30,6 +30,7 @@ class UserController extends Controller {
       password,
       signature: '世界和平',
       avatar: defaultAvatar,
+      ctime: new Date(),
     });
     if (result) {
       ctx.body = {
