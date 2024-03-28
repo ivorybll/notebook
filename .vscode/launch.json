@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+		{
+			"name": "Attach by Process ID",
+			"processId": "${command:PickProcess}",
+			"request": "attach",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"type": "node"
+		},
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "启动Egg.js",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "debug", "--", "--inspect"],
+      "env": {
+        "MODE": "dev",
+        "EGG_SERVER_ENV": "local"
+      },
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

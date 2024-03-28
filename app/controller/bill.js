@@ -6,6 +6,7 @@ class BillController extends Controller {
     const { ctx, app } = this;
     const { date, page = 1, page_size = 5, type_id = 'all' } = ctx.query;
     try {
+
       let user_id;
       // 通过 token 解析，拿到 user_id
       const token = ctx.request.header.authorization;
@@ -16,40 +17,16 @@ class BillController extends Controller {
 
       // 过滤出月份和类型所对应的账单列表
       const _list = list.filter(item => {
+        console.log('data', moment(Number(item.date)).format('YYYY-MM'));
         if (type_id !== 'all') {
 
           return moment(Number(item.date)).format('YYYY-MM') === date && type_id === item.type_id;
         }
 
-        console.log(moment(Number(item.date)).format('YYYY-MM') + '24');
+
         return moment(Number(item.date)).format('YYYY-MM') === date;
       });
-      // console.log(_list, 27);
-      // const listMap = _list.reduce((curr, item) => {
-      //   // curr 默认初始值是一个空数组 []
-      //   // 把第一个账单项的时间格式化为 YYYY-MM-DD
-      //   const date = moment(Number(item.date)).format('YYYY-MM-DD');
-      //   // 如果能在累加的数组中找到当前项日期 date，那么在数组中的加入当前项到 bills 数组。
-      //   if (curr && curr.length && curr.findIndex(item => item.date == date) > -1) {
-      //     const index = curr.findIndex(item => item.date == date);
-      //     curr[index].bills.push(item);
-      //   }
-      //   // 如果在累加的数组中找不到当前项日期的，那么再新建一项。
-      //   if (curr && curr.length && curr.findIndex(item => item.date == date) == -1) {
-      //     curr.push({
-      //       date,
-      //       bills: [ item ],
-      //     });
-      //   }
-      //   // 如果 curr 为空数组，则默认添加第一个账单项 item ，格式化为下列模式
-      //   if (!curr.length) {
-      //     curr.push({
-      //       date,
-      //       bills: [ item ],
-      //     });
-      //   }
-      //   return curr;
-      // }, []).sort((a, b) => moment(b.date) - moment(a.date)); // 时间顺序为倒叙，时间约新的，在越上面
+
       const listMap = _list.reduce((curr, item) => {
         // curr 默认初始值是一个空数组 []
         // 把第一个账单项的时间格式化为 YYYY-MM-DD
@@ -137,7 +114,6 @@ class BillController extends Controller {
       const decode = await app.jwt.verify(token, app.config.jwt.secret);
       if (!decode) return;
       const user_id = decode.id;
-      console.log(date);
       const reuslt = await ctx.service.bill.add({ user_id, amount, type_id, type_name, date, pay_type, remark });
       ctx.body = {
         code: 200,
@@ -177,7 +153,6 @@ class BillController extends Controller {
     }
     try {
       const detail = await ctx.service.bill.detail(id, user_id);
-      console.log(detail, '180');
       ctx.body = {
         code: 200,
         msg: '请求成功',
@@ -288,7 +263,6 @@ class BillController extends Controller {
       const start = moment(date).startOf('month').unix() * 1000; // 选择月份，月初时间
       const end = moment(date).endOf('month').unix() * 1000; // 选择月份，月末时间
       const _data = result.filter(item => (Number(item.date) > start && Number(item.date) < end));
-      console.log(_data);
       // 总支出
       const total_expense = _data.reduce((arr, cur) => {
         if (cur.pay_type == 1) {
