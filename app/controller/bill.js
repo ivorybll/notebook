@@ -20,7 +20,7 @@ class BillController extends Controller {
         console.log('data', moment(Number(item.date)).format('YYYY-MM'));
         if (type_id !== 'all') {
 
-          return moment(Number(item.date)).format('YYYY-MM') === date && type_id === item.type_id;
+          return moment(Number(item.date)).format('YYYY-MM') === date && type_id == item.type_id;
         }
 
 
